@@ -9,6 +9,20 @@ class UrlExpander {
     required String expandedBaseUrl,
   }) async {
     try {
+      return await _extractFullUrl(url, expandedBaseUrl);
+    } catch (e, t) {
+      log('$e', error: e, stackTrace: t);
+      throw Exception(e);
+    }
+  }
+
+  _extractFullUrl(
+    String url,
+    String expandedBaseUrl, [
+    int iterationsAllowed = 5,
+  ]) async {
+    try {
+      if (!(iterationsAllowed >= 1)) throw "Max redirect limit reached";
       if (!_isValidUrl(url)) throw "Invalid URL";
       if (_isValidFullUrl(url, expandedBaseUrl)) return url;
 
@@ -16,33 +30,35 @@ class UrlExpander {
 
       final request = await _client.headUrl(uri);
       request.followRedirects = false;
+      request.maxRedirects = 5;
 
       final response = await request.close();
 
-      stdout.write("\x1B[32m========\nHEADERS\n=========\n${response.headers}\n==========\x1B[0m\n");
+      stdout.write(
+          "\x1B[32m========\nHEADERS\n=========\n${response.headers}\n==========\x1B[0m\n");
 
-      final location = response.headers.value(HttpHeaders.locationHeader);
+      final fullUrl = response.headers.value(HttpHeaders.locationHeader);
 
-      if ((location ?? '').isEmpty) throw "URL not found";
+      if ((fullUrl ?? '').isEmpty) throw "URL not found";
 
       final isValidUrl = _isValidFullUrl(
-        location,
+        fullUrl,
         expandedBaseUrl,
       );
 
       if (!isValidUrl && response.isRedirect) {
-        return await getFullUrl(
-          location!,
-          expandedBaseUrl: expandedBaseUrl,
+        return await _extractFullUrl(
+          fullUrl!,
+          expandedBaseUrl,
+          --iterationsAllowed,
         );
       }
 
       if (!isValidUrl) throw 'Cannot fetch expanded URL';
 
-      return location!;
-    } catch (e, t) {
-      log('$e', error: e, stackTrace: t);
-      throw Exception(e);
+      return fullUrl!;
+    } catch (_) {
+      rethrow;
     }
   }
 
