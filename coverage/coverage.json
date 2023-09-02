@@ -1,0 +1,1 @@
+{"type":"CodeCoverage","coverage":[{"source":"package:url_expander/url_expander.dart","script":{"type":"@Script","fixedId":true,"id":"libraries/1/scripts/package%3Aurl_expander%2Furl_expander.dart","uri":"package:url_expander/url_expander.dart","_kind":"library"},"hits":[7,1,12,1,13,1,15,1,17,2,18,1,20,1,22,4,24,2,26,1,28,1,33,1,34,1,44,2,45,1,49,1,50,1,51,1,56,1,62,1,64,1]}]}
