@@ -1,3 +1,7 @@
 # https://dart.dev/guides/libraries/private-files
 # Created by `dart pub`
 .dart_tool/
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
+branch_structure.json
