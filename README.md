@@ -1,2 +1,7 @@
-A sample command-line application with an entrypoint in `bin/`, library code
-in `lib/`, and example unit test in `test/`.
+# URL EXPANDER
+
+A dart CLI application for fetching full urls from short URLs
+
+### Usage Example
+
+![](http://g.recordit.co/NMdlwifceQ.gif)
