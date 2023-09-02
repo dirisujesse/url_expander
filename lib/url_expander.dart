@@ -17,9 +17,9 @@ class UrlExpander {
       final request = await _client.headUrl(uri);
       request.followRedirects = false;
 
-      var response = await request.close();
+      final response = await request.close();
 
-      stdout.write("\x1B[32m========\nHEADERS\n=========${response.headers}\n==========\x1B[0m");
+      stdout.write("\x1B[32m========\nHEADERS\n=========\n${response.headers}\n==========\x1B[0m\n");
 
       final location = response.headers.value(HttpHeaders.locationHeader);
 
