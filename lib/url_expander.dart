@@ -30,7 +30,6 @@ class UrlExpander {
 
       final request = await _client.headUrl(uri);
       request.followRedirects = false;
-      request.maxRedirects = 5;
 
       final response = await request.close();
 
